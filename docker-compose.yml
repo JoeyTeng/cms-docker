@@ -1,0 +1,28 @@
+web:
+    build: ./cms
+    command: /bin/sh -c "sleep 10 && cmsInitDB && cmsAddAdmin cmsAdmin && sleep 1 && cmsAdminWebServer"
+#     expose:
+#        - "8888"
+#        - "8889"
+#        - "8890"
+    ports:
+        - "88:8888"
+        - "89:8889"
+        - "90:8890"
+    links:
+        - db:database
+
+db:
+    build: ./db
+    ports: 
+        - "5432:5432"
+
+# nginx:
+#     build: ./nginx
+#     command: /bin/bash -c "head /etc/hosts && envsubst < /etc/nginx/conf.d/nginx.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+#    ports:
+#        - "8888:8888"
+#        - "8889:8889"
+#        - "8890:8890"
+#    links:
+#        - web:cms
