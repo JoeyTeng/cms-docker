@@ -39,4 +39,5 @@ RUN python -c "import json; \
                conf['database'] = 'postgresql+psycopg2://cmsuser:cmsPassworD@database/cmsdb'; \
                conf['contest_listen_address'] = '0.0.0.0'; \
                conf['admin_listen_address'] = '0.0.0.0'; \
+               conf['secret_key'] = 'dd04fa86a4aa366eb57191fd069151b1'; \
                json.dump(conf, open('/usr/local/etc/cms.conf', 'wb'))"
