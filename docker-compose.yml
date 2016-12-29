@@ -1,6 +1,7 @@
 web:
-    build: ./cms
-    command: /bin/sh -c "sleep 10 && cmsInitDB && cmsAddAdmin cmsAdmin && sleep 1 && cmsAdminWebServer"
+#     build: ./cms
+    image: daocloud.io/joeytengdev/cms-docker:latest
+    command: "cmsResourceService -a 3"
 #     expose:
 #        - "8888"
 #        - "8889"
@@ -10,12 +11,26 @@ web:
         - "89:8889"
         - "90:8890"
     links:
+        - log:logService
         - db:database
 
 db:
     build: ./db
     ports: 
         - "5432:5432"
+
+log:
+    image: daocloud.io/joeytengdev/cms-docker:latest
+    command: "cmsLogService"
+
+init:
+    image: daocloud.io/joeytengdev/cms-docker:latest
+    command: /bin/sh -c "sleep 10 && cmsInitDB && cmsAddAdmin cmsAdmin && sleep 1 && cmsAdminWebServer"
+    ports:
+        - "18889:8889"
+    links:
+        - log:logService
+        - db:database
 
 # nginx:
 #     build: ./nginx
